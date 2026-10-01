@@ -8,11 +8,17 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "backfill": "tsx scripts/backfill.mts",
+    "verify": "tsx scripts/verify.mts",
+    "demo": "tsx scripts/demo.mts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
     "@meteora-ag/dynamic-bonding-curve-sdk": "^1.5.13",
     "bn.js": "^5.2.5",
+    "bs58": "^6.0.0",
     "decimal.js": "^10.6.0",
     "next": "16.3.8",
     "react": "19.2.8",
@@ -27,7 +33,9 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.8",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^5.0.3"
-  }
+  },
+  "type": "module"
 }

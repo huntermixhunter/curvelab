@@ -1,3 +1,4 @@
+import type { ConfigParameters, PoolConfig } from '@meteora-ag/dynamic-bonding-curve-sdk'
 import type BN from 'bn.js'
 
 /**
@@ -59,3 +60,13 @@ export interface SimResult {
   /** Quote lamports of buy demand that arrived after graduation. */
   quoteDemandAfterGraduation: BN
 }
+
+/**
+ * Any config the SDK quote math can price.
+ *
+ * `ConfigParameters` is what `buildCurve*` returns for a curve that does not
+ * exist yet. `PoolConfig` is the account layout of a curve that is live on
+ * mainnet. They are structurally close enough for the quote functions, which
+ * is what lets one engine both design a new curve and replay a real one.
+ */
+export type QuotableConfig = ConfigParameters | PoolConfig

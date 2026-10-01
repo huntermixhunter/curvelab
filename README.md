@@ -52,16 +52,61 @@ SDK rather than reading about it:
    on a fresh `buildCurve` output and `migrationSqrtPrice` is absent. The SDK
    reconciles this in a private method, which Curve Lab reimplements.
 
+## Verified against mainnet
+
+A simulator is only worth something if it reproduces launches that already
+happened. Curve Lab pulls a real DBC pool off Solana mainnet and replays it
+against its own on-chain config:
+
+| pool | `7CSnmLkKq4XD1DRZW3FuLbS6xebpaDtg6j3zjzzkwt6U` |
+|---|---|
+| swaps replayed | 491 (245 buys, 246 sells) |
+| lifetime | 88 seconds, 659 signatures, 164 of them failed |
+| graduated | yes, on trade #491, at a 10.96 SOL migration target |
+| result | **491 of 491 reproduced exactly** |
+
+Exactly means every `nextSqrtPrice`, every `amountOut`, and every
+`quoteReserve` is bit-identical to what the program wrote, across the whole
+launch including graduation. `npm test` reruns this offline against the stored
+fixture, so it cannot silently regress.
+
+## The data problem nobody mentions
+
+The first capture of that pool returned 154 swaps. The real number is 491.
+The public endpoint had silently dropped 69% of the launch, and nothing about
+the result looked wrong: the history was plausible, ordered, and completely
+unusable.
+
+`api.mainnet-beta.solana.com` is a pool of load-balanced nodes. It will omit
+sub-responses from a batch without reporting an error, and it served 657
+signatures on one read and 659 on the next for a token that stopped trading 88
+seconds after launch. A missing trade is invisible, and every replay built on
+it is quietly wrong.
+
+So Curve Lab does not trust it. Every `EvtSwap2` carries the pool's quote
+reserve immediately after that swap, straight from the program, which makes a
+trade list self-checking: if one trade's effect on the reserve does not land on
+the next trade's recorded reserve, a swap between them is missing. The backfill
+detects gaps, re-reads to close them, recovers the order of trades sharing a
+slot by search, and reports whatever it could not fix instead of hiding it.
+
+Curve Lab proves its data is complete rather than asking you to trust it.
+
 ## Status
 
-Engine complete and tested. UI, mainnet data backfill, and the preset
+Engine complete, tested, and verified against mainnet. UI and the preset
 marketplace are in progress.
 
 ```bash
 npm install
-npm test            # 9 passing
-npx tsx scripts/demo.mts
+npm test                                    # 23 passing, incl. the mainnet replay
+npx tsx scripts/demo.mts                    # curve shape comparison
+npx tsx scripts/backfill.mts discover       # find live DBC pools
+npx tsx scripts/verify.mts --verbose        # replay stored pools against the chain
 ```
+
+Set `SOLANA_RPC_URL` to use a private endpoint. The default needs no key and no
+account, but expect repair rounds on a busy pool.
 
 ## Licence
 

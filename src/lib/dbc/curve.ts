@@ -22,6 +22,13 @@ export interface CurveSpec {
   dynamicFeeEnabled?: boolean
   /** Share of trading fees routed to the token creator, 0-100. */
   creatorTradingFeePercentage?: number
+  /**
+   * Which token fees are taken in. Quote means fees always accrue in SOL;
+   * output means a buy pays its fee in the token being bought. Real pools use
+   * both, so a counterfactual has to be able to match the pool it is compared
+   * against or the fee totals are not in the same units.
+   */
+  collectFeeMode?: CollectFeeMode
 }
 
 /**
@@ -38,6 +45,7 @@ export function buildCurve(spec: CurveSpec): ConfigParameters {
     tokenQuoteDecimal = TokenDecimal.NINE,
     dynamicFeeEnabled = false,
     creatorTradingFeePercentage = 0,
+    collectFeeMode = CollectFeeMode.QuoteToken,
   } = spec
 
   return buildCurveWithMarketCap({
@@ -62,7 +70,7 @@ export function buildCurve(spec: CurveSpec): ConfigParameters {
         },
       },
       dynamicFeeEnabled,
-      collectFeeMode: CollectFeeMode.QuoteToken,
+      collectFeeMode,
       creatorTradingFeePercentage,
       poolCreationFee: 0,
       enableFirstSwapWithMinFee: false,

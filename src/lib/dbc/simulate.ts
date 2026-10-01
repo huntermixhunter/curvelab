@@ -6,7 +6,7 @@ import {
   getPriceFromSqrtPrice,
   type ConfigParameters,
 } from '@meteora-ag/dynamic-bonding-curve-sdk'
-import type { SimTrade, SimStep, SimResult } from './types'
+import type { SimTrade, SimStep, SimResult, QuotableConfig } from './types'
 
 /**
  * Reconcile a `buildCurve*` output into something the quote math accepts.
@@ -20,7 +20,7 @@ import type { SimTrade, SimStep, SimResult } from './types'
  *
  * Keep this in sync with the SDK if the DBC version is bumped.
  */
-export function normalizeQuoteConfig(config: ConfigParameters) {
+export function normalizeQuoteConfig(config: QuotableConfig) {
   if (!config.curve || config.curve.length === 0) {
     throw new Error('normalizeQuoteConfig: config.curve is empty')
   }
@@ -77,14 +77,21 @@ type QuoteArgs = Parameters<typeof swapQuotePartialFill>
 type SdkVirtualPool = QuoteArgs[0]
 type SdkPoolConfig = QuoteArgs[1]
 
-/** A virtual pool at launch: start price set, reserves and volatility zeroed. */
-export function launchState(sqrtStartPrice: BN): QuotablePool {
+/**
+ * A virtual pool at launch: start price set, reserves and volatility zeroed.
+ *
+ * `activationPoint` matters whenever the config uses a fee scheduler, because
+ * the fee is a function of how far the current point is past activation. It
+ * defaults to zero for a hypothetical curve; replaying a real pool should pass
+ * the pool's actual activation point so the scheduled fees line up.
+ */
+export function launchState(sqrtStartPrice: BN, activationPoint: BN = new BN(0)): QuotablePool {
   return {
     poolState: {
       sqrtPrice: new BN(sqrtStartPrice),
       baseReserve: new BN(0),
       quoteReserve: new BN(0),
-      activationPoint: new BN(0),
+      activationPoint: new BN(activationPoint),
       volatilityTracker: {
         lastUpdateTimestamp: new BN(0),
         sqrtPriceReference: new BN(0),
@@ -97,7 +104,7 @@ export function launchState(sqrtStartPrice: BN): QuotablePool {
 }
 
 export interface SimulateOptions {
-  config: ConfigParameters
+  config: QuotableConfig
   trades: SimTrade[]
   tokenBaseDecimal: number
   tokenQuoteDecimal: number
@@ -105,6 +112,11 @@ export interface SimulateOptions {
   totalTokenSupply: number
   slippageBps?: number
   hasReferral?: boolean
+  /**
+   * Slot or timestamp at which the real pool activated. Only affects configs
+   * with a non-constant fee schedule; defaults to zero for a designed curve.
+   */
+  activationPoint?: BN
 }
 
 /**
@@ -121,11 +133,17 @@ export function simulate(opts: SimulateOptions): SimResult {
   const {
     config, trades, tokenBaseDecimal, tokenQuoteDecimal,
     totalTokenSupply, slippageBps = 0, hasReferral = false,
+    activationPoint,
   } = opts
 
   const poolConfig = normalizeQuoteConfig(config)
-  const pool = launchState(config.sqrtStartPrice)
+  const pool = launchState(config.sqrtStartPrice, activationPoint)
   const threshold = config.migrationQuoteThreshold
+
+  // CollectFeeMode: 0 = always quote token, 1 = whichever token is the output.
+  // On a sell the output is quote either way, so only a buy is affected.
+  const feesPaidInQuoteOnBuy =
+    Number((config as { collectFeeMode?: number }).collectFeeMode ?? 0) === 0
 
   const steps: SimStep[] = []
   let totalQuoteVolume = new BN(0)
@@ -169,23 +187,36 @@ export function simulate(opts: SimulateOptions): SimResult {
     )
 
     // Roll pool state forward. This is the step the SDK does not do for us.
+    const tradingFee = q.tradingFee ?? new BN(0)
+    const protocolFee = q.protocolFee ?? new BN(0)
+    const filled = amountIn.sub(q.amountLeft ?? new BN(0))
+
     pool.poolState.sqrtPrice = q.nextSqrtPrice
     if (t.side === 'buy') {
-      const filled = amountIn.sub(q.amountLeft ?? new BN(0))
-      pool.poolState.quoteReserve = pool.poolState.quoteReserve.add(filled)
+      // Under `collectFeeMode` 0 the fee is taken from the quote input, so only
+      // the remainder reaches the curve and counts toward migration. Under mode
+      // 1 the fee is taken from the base output and the whole input lands in
+      // the reserve.
+      const intoReserve = feesPaidInQuoteOnBuy ? filled.sub(tradingFee).sub(protocolFee) : filled
+      pool.poolState.quoteReserve = pool.poolState.quoteReserve.add(intoReserve)
       pool.poolState.baseReserve = pool.poolState.baseReserve.add(q.outputAmount)
       totalQuoteVolume = totalQuoteVolume.add(filled)
       totalBaseSold = totalBaseSold.add(q.outputAmount)
     } else {
-      const filled = amountIn.sub(q.amountLeft ?? new BN(0))
+      // A sell pays the trader `outputAmount` net of fees, but those fees leave
+      // the reserve too, so the pool parts with the gross amount. Subtracting
+      // only the payout leaves the reserve permanently high, and because the
+      // reserve decides when the curve graduates, the error compounds into
+      // every trade that follows. Verified against 491 real mainnet swaps.
+      const outOfReserve = q.outputAmount.add(tradingFee).add(protocolFee)
       pool.poolState.baseReserve = BN.max(new BN(0), pool.poolState.baseReserve.sub(filled))
-      pool.poolState.quoteReserve = BN.max(new BN(0), pool.poolState.quoteReserve.sub(q.outputAmount))
+      pool.poolState.quoteReserve = BN.max(new BN(0), pool.poolState.quoteReserve.sub(outOfReserve))
       totalQuoteVolume = totalQuoteVolume.add(q.outputAmount)
       totalBaseSold = BN.max(new BN(0), totalBaseSold.sub(filled))
     }
 
-    totalTradingFee = totalTradingFee.add(q.tradingFee ?? new BN(0))
-    totalProtocolFee = totalProtocolFee.add(q.protocolFee ?? new BN(0))
+    totalTradingFee = totalTradingFee.add(tradingFee)
+    totalProtocolFee = totalProtocolFee.add(protocolFee)
 
     const price = Number(
       getPriceFromSqrtPrice(pool.poolState.sqrtPrice, tokenBaseDecimal, tokenQuoteDecimal).toString(),

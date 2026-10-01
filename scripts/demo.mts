@@ -4,7 +4,8 @@ import { simulate } from '../src/lib/dbc/simulate'
 import type { SimTrade } from '../src/lib/dbc/types'
 
 const SUPPLY = 1_000_000_000
-const sol = (n: number) => Number(n) / 1e9
+/** Lamports to whole SOL. Accepts a BN because every engine total is a u64. */
+const sol = (n: BN | number) => Number(n.toString()) / 1e9
 
 /** Compare three curve shapes against the same demand flow. */
 const shapes = [
