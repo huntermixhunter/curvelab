@@ -8,7 +8,7 @@ import {
   type ConfigAccountType,
 } from './accounts'
 import { extractSwaps, TRADE_DIRECTION, type Swap2Event } from './events'
-import type { SolanaRpc, SignatureInfo, RpcTransaction } from './rpc'
+import type { SolanaRpc, SignatureInfo } from './rpc'
 
 /**
  * Bumped whenever the fixture shape changes in a way replays must notice.

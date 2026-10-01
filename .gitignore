@@ -43,3 +43,12 @@ next-env.d.ts
 # local scratch probes
 _*.mjs
 _*.mts
+
+# local scratch probes and capture logs
+/_*
+data/capture.log
+data/capture.lock
+data/capture.stdout.log
+data/capture.stderr.log
+data/**/*.tmp
+data/pools-incomplete/

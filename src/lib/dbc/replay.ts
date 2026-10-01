@@ -139,11 +139,7 @@ export function verifyAgainstChain(history: PoolHistory): VerifyResult {
     }
     compare('nextSqrtPrice', real.nextSqrtPrice, step.sqrtPriceAfter.toString())
     compare('amountOut', real.amountOut, step.amountOut.toString())
-    // Sells reduce the reserve, and the engine floors it at zero where the
-    // program tracks it exactly, so only buys are compared on reserve.
-    if (real.side === 'buy') {
-      compare('quoteReserve', real.quoteReserveAfter, step.quoteReserve.toString())
-    }
+    compare('quoteReserve', real.quoteReserveAfter, step.quoteReserve.toString())
     if (mismatches.length === before) matched++
   }
 

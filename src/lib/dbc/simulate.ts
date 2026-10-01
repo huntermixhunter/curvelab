@@ -4,7 +4,6 @@ import {
   swapQuotePartialFill,
   getMigrationThresholdPrice,
   getPriceFromSqrtPrice,
-  type ConfigParameters,
 } from '@meteora-ag/dynamic-bonding-curve-sdk'
 import type { SimTrade, SimStep, SimResult, QuotableConfig } from './types'
 

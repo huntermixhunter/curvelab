@@ -94,11 +94,9 @@ for (const path of paths) {
     continue
   }
 
-  // A pool with dynamic fees enabled prices each swap partly from a volatility
-  // accumulator the engine does not track, so drift there is expected and is
-  // reported rather than counted as a correctness failure.
+  // Unsupported dynamic fees explain drift, but do not make a failed replay exact.
   const expectedDrift = verdict.dynamicFeeEnabled && !verdict.exact
-  if (!verdict.exact && !expectedDrift) failures++
+  if (!verdict.exact) failures++
 
   const note = verdict.exact
     ? ''

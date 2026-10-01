@@ -12,7 +12,8 @@
     "backfill": "tsx scripts/backfill.mts",
     "verify": "tsx scripts/verify.mts",
     "demo": "tsx scripts/demo.mts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "capture": "tsx scripts/capture.mts"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.31.1",

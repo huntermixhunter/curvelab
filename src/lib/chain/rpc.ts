@@ -125,6 +125,7 @@ export class SolanaRpc {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify(body),
+          signal: AbortSignal.timeout(30_000),
         })
       } catch (e) {
         lastError = e as Error

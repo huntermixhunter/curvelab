@@ -96,3 +96,51 @@ export function buildCurve(spec: CurveSpec): ConfigParameters {
     activationType: ActivationType.Slot,
   })
 }
+
+/** A curve described by the two decisions an operator actually makes. */
+export interface ScaledCurveSpec extends Omit<CurveSpec, 'initialMarketCap' | 'migrationMarketCap'> {
+  /** Quote tokens required to graduate. */
+  migrationThresholdQuote: number
+  /** Migration market cap divided by start market cap. Always above 1. */
+  curveLength: number
+}
+
+export interface ScaledCurve {
+  config: ConfigParameters
+  initialMarketCap: number
+  migrationMarketCap: number
+}
+
+/**
+ * Build a curve from a target graduation threshold and a curve length.
+ *
+ * The SDK builds from two market caps, but those are the wrong controls to put
+ * in front of someone designing a launch. The threshold they imply depends on
+ * how much base supply the curve sells, so the same two caps mean 11 SOL on one
+ * pool's configuration and 187 SOL under these defaults. Market caps also do
+ * not compare across tokens, while "how much SOL does it take to graduate"
+ * compares across every pool on the program.
+ *
+ * Inverting is exact rather than iterative. At a fixed ratio between the two
+ * caps, the threshold scales perfectly linearly with the market-cap level
+ * (verified to six decimal places across three ratios and four levels), so one
+ * build at unit scale gives the constant and the level follows by division.
+ */
+export function buildCurveForThreshold(spec: ScaledCurveSpec): ScaledCurve {
+  const { migrationThresholdQuote, curveLength, ...rest } = spec
+  const ratio = Math.max(1.0001, curveLength)
+  const quoteDecimal = spec.tokenQuoteDecimal ?? 9
+
+  const unit = buildCurve({ ...rest, initialMarketCap: 1, migrationMarketCap: ratio })
+  const unitThreshold = Number(unit.migrationQuoteThreshold.toString()) / 10 ** quoteDecimal
+  if (!(unitThreshold > 0)) throw new Error('curve length produced a zero migration threshold')
+
+  const initialMarketCap = migrationThresholdQuote / unitThreshold
+  const migrationMarketCap = initialMarketCap * ratio
+
+  return {
+    config: buildCurve({ ...rest, initialMarketCap, migrationMarketCap }),
+    initialMarketCap,
+    migrationMarketCap,
+  }
+}

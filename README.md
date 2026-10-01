@@ -7,25 +7,79 @@ market cap, a migration market cap, and a fee, then you find out whether it was
 right by watching a real token succeed or fail with real money on it.
 
 Curve Lab replays a curve against a demand flow and shows you what actually
-happens: the price path, when it graduates to DAMM v2, how much fee revenue the
-creator earns, and how much buy demand arrives after graduation and never
+happens: the price path, when it graduates to DAMM v2, the combined partner and
+creator DBC fees, and how much buy demand arrives after graduation and never
 touches your curve at all.
 
 ## The tradeoff nobody can currently see
 
 Same demand (120 buys of 1 SOL), three curve shapes:
 
-| curve | graduates at | creator fee | final mcap | demand stranded |
+| curve | graduates at | partner + creator DBC fee | final mcap | demand after graduation |
 |---|---|---|---|---|
 | Tight, 30 to 300 mcap | trade #73 | 0.582 SOL | 300 SOL | **47 SOL** |
 | Normal, 30 to 600 mcap | trade #110 | 0.880 SOL | 594 SOL | 10 SOL |
 | Long, 30 to 2000 mcap | never | 0.960 SOL | 720 SOL | 0 SOL |
 
-A tight curve graduates fast and feels like a win, but 47 of 120 SOL of demand
-arrived after the curve was finished and routed to the DAMM v2 pool instead,
-earning the creator nothing on the way up. A long curve captures every fee but
-never migrates. The middle is where most launches should sit, and until now
-there was no way to find it except by launching.
+A tight curve graduates quickly, leaving 47 of 120 SOL of submitted demand
+outside the DBC simulation. A longer curve can collect more DBC fees but may
+never migrate under this demand. DAMM v2 trading and fees after migration are
+not modeled, so this is a comparison of the bonding-curve phase, not total
+lifetime revenue or a prediction of real trader behavior.
+
+## Rerun a launch that already happened
+
+The interesting question is not what a curve does to invented demand. It is what
+a *different* curve would have done to demand that really arrived.
+
+Curve Lab takes the buy flow off a verified mainnet launch and runs it through
+curves that never existed. Pool `7CSn…wt6U` took 28.8 SOL of buy orders across
+245 trades:
+
+| curve | graduated | through curve | returned unfilled | after graduation | DBC fee value |
+|---|---|---|---|---|---|
+| Graduate at 5.48 SOL | trade #1 | 5.48 SOL | 2.74 SOL | 20.62 SOL | 0.01096 SOL |
+| Original curve, 10.96 SOL | trade #45 | 10.96 SOL | 0.0571 SOL | 17.83 SOL | 0.02192 SOL |
+| Graduate at 21.92 SOL | trade #199 | 21.92 SOL | 0.0447 SOL | 6.88 SOL | 0.04384 SOL |
+
+In the buys-only scenario, the original curve graduates on trade 45 of 245 and
+collects fees valued at 0.02192 SOL. Doubling its migration target to 21.92 SOL
+collects fees valued at 0.04384 SOL. These are combined partner and creator
+fees valued at each trade's execution rate. Under output-token fee collection,
+the actual fee proceeds are base tokens, not a guaranteed SOL payout.
+The first buy alone was 8.2 SOL, 75% of the whole migration target, which is why
+the shortest curve graduates on trade one and collects almost nothing.
+
+Sells are dropped from both sides. A sell is denominated in base tokens, so how
+many a holder has depends on the curve they bought on; buy demand is in SOL and
+transfers between curves unchanged. Holding the orders identical is the only
+thing that makes the comparison mean anything.
+
+The demand chart and table account for the full submitted amount: filled
+quote, quote returned unfilled at graduation, and orders arriving afterward.
+The actual on-chain launch includes sells and graduates at trade 491, as
+shown in the verification section below.
+
+## Market caps are the wrong control
+
+The SDK builds a curve from a start market cap and a migration market cap, and
+those are the two numbers every launchpad UI exposes. They are close to useless
+for deciding anything.
+
+The threshold a pair of market caps implies depends on how much *base supply*
+the curve sells on the way up, which is set by leftover, locked vesting, and the
+liquidity split. The pool above starts at a 305 SOL market cap and migrates at
+500, and needs 11 SOL to graduate. The same two market caps with a standard
+full-supply configuration need 187 SOL. Nothing about the pair tells you which.
+
+So Curve Lab inverts it and exposes the two decisions that do carry meaning:
+
+- **SOL to graduate**: how much buy demand the curve must absorb before it migrates.
+- **Curve length**: how far the price runs from start to migration, as a multiple.
+
+At a fixed length the threshold is exactly linear in the market-cap level, so
+the inversion is one build and a division rather than a search. It reproduces
+any target to within 1e-6 from 1 SOL to 3,000 SOL, and `npm test` holds it there.
 
 ## How it works
 
@@ -92,21 +146,56 @@ slot by search, and reports whatever it could not fix instead of hiding it.
 
 Curve Lab proves its data is complete rather than asking you to trust it.
 
-## Status
-
-Engine complete, tested, and verified against mainnet. UI and the preset
-marketplace are in progress.
+## Running it
 
 ```bash
 npm install
-npm test                                    # 23 passing, incl. the mainnet replay
-npx tsx scripts/demo.mts                    # curve shape comparison
-npx tsx scripts/backfill.mts discover       # find live DBC pools
-npx tsx scripts/verify.mts --verbose        # replay stored pools against the chain
+npm run dev                  # the lab, at http://localhost:3000
+npm test                     # offline regression suite and stored mainnet replays
+npm run build                # production build
 ```
 
-Set `SOLANA_RPC_URL` to use a private endpoint. The default needs no key and no
-account, but expect repair rounds on a busy pool.
+The comparison UI supports real buy flows, three synthetic demand shapes,
+up to three designed curves, indexed progress and price charts, DBC fee
+valuation, and full quote accounting. The preset marketplace is still to come.
+
+The corpus currently contains three exactly replayed histories (493 swaps).
+One is available in the UI. Two single-swap fixtures exceed the designer's
+curve-length range and remain available to offline verification. The picker
+excludes unsupported parameter ranges, non-SOL quote assets, dynamic-fee
+configs, and histories over 6,000 buys rather than truncating or mislabeling them.
+
+Collecting launches to replay against:
+
+```bash
+npm run capture              # discover and backfill verified pools, unattended
+npm run verify -- --verbose  # replay every stored pool against the chain
+npm run demo                 # curve shape comparison, no browser
+```
+
+`npm run capture` accepts nonempty histories only when the reserve chain is
+continuous and every recorded swap replays exactly. Unsupported fees and
+incomplete or mismatching histories are parked in `data/pools-incomplete`.
+Fixtures are written atomically so the server never reads half a JSON file.
+New eligible fixtures appear on page refresh without restarting the server.
+
+The collector uses a PID lock to prevent overlapping jobs. It samples 120
+transactions per discovery round by default, uses batches of four, logs progress
+to `data/capture.log`, backs off on rate limits, and times out stalled HTTP
+requests after 30 seconds. `--target`, `--sample`, `--max-pages`, `--rounds`, and
+`--cooldown` control a run. An exited process's lock is recovered automatically.
+
+### A note on the public RPC
+
+The default endpoint, `api.mainnet-beta.solana.com`, needs no key and no
+account, and it is the reason this runs for anyone who clones it. It is also
+rate-limited hard enough that building a corpus of more than a few pools is slow:
+discovery reads a few hundred transactions to find which pools are live, and the
+endpoint starts refusing requests partway through. The capture job backs off and
+retries rather than failing, but it takes its time.
+
+`SOLANA_RPC_URL` can select another endpoint. Its rate limits and billing apply;
+the default needs no paid account.
 
 ## Licence
 
