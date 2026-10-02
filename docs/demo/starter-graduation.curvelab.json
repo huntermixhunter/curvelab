@@ -1,0 +1,43 @@
+{
+  "format": "curvelab-preset",
+  "version": 1,
+  "id": "starter-graduation",
+  "name": "The graduation tradeoff",
+  "description": "Hold price range and fees fixed. Compare how much demand a 40 SOL or 85 SOL target can absorb before migration.",
+  "useCase": "Explore earlier migration versus a longer DBC phase.",
+  "createdAt": "2026-10-01T00:00:00.000Z",
+  "simulation": {
+    "curves": [
+      {
+        "id": "starter-graduation-0",
+        "label": "Earlier migration",
+        "slot": 0,
+        "curve": {
+          "migrationThresholdQuote": 40,
+          "curveLength": 20,
+          "baseFeeBps": 100,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      },
+      {
+        "id": "starter-graduation-1",
+        "label": "Longer DBC phase",
+        "slot": 1,
+        "curve": {
+          "migrationThresholdQuote": 85,
+          "curveLength": 20,
+          "baseFeeBps": 100,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      }
+    ],
+    "demand": {
+      "kind": "synthetic",
+      "shape": "frontloaded",
+      "buys": 120,
+      "totalQuote": 120
+    }
+  }
+}

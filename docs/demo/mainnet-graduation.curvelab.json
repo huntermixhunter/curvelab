@@ -1,0 +1,41 @@
+{
+  "format": "curvelab-preset",
+  "version": 1,
+  "id": "demo-mainnet-graduation-v1",
+  "name": "One launch, two graduation targets",
+  "description": "Replay the same 245 recorded buys against half and double the original migration target. The original curve is added as the baseline.",
+  "useCase": "Explore DBC migration timing using a verified mainnet buy flow.",
+  "createdAt": "2026-10-02T00:00:00.000Z",
+  "simulation": {
+    "curves": [
+      {
+        "id": "demo-0",
+        "label": "Graduate sooner",
+        "slot": 0,
+        "curve": {
+          "migrationThresholdQuote": 5.48,
+          "curveLength": 1.6410170418468946,
+          "baseFeeBps": 25,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      },
+      {
+        "id": "demo-1",
+        "label": "Graduate later",
+        "slot": 1,
+        "curve": {
+          "migrationThresholdQuote": 21.92,
+          "curveLength": 1.6410170418468946,
+          "baseFeeBps": 25,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      }
+    ],
+    "demand": {
+      "kind": "pool",
+      "pool": "7CSnmLkKq4XD1DRZW3FuLbS6xebpaDtg6j3zjzzkwt6U"
+    }
+  }
+}

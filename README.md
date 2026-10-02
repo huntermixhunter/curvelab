@@ -242,3 +242,16 @@ the default needs no paid account.
 ## Licence
 
 MIT.
+
+## Demo and submission materials
+
+The rehearsal guide is in `docs/DEMO.md` and the submission draft is in
+`docs/SUBMISSION.md`. Open the six-slide deck at
+http://localhost:3000/demo/pitch.html with the dev server running, or use
+`public/demo/pitch.pdf`. These are local review materials, not a submitted entry.
+
+`npm run demo:evidence` verifies the stored corpus offline and writes fixture
+hashes, measured comparison results, and four portable examples to `docs/demo/`.
+The mainnet example explicitly preserves the original config as its baseline;
+designed alternatives use standard builder allocations, not the original
+launch's vesting and liquidity distribution.

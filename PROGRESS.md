@@ -24,6 +24,14 @@ Project: `C:\Users\mixma\Documents\curvelab`.
   unavailable storage is reported without overwriting it; file export still
   works. Existing presets persist through refresh and update across tabs.
 - README includes the preset format, local-storage boundaries, and demo flow.
+- Preset milestone committed as `57fd985` after independent review.
+- Local submission kit: `docs/DEMO.md`, `docs/SUBMISSION.md`, and a six-slide
+  HTML/PDF deck at `/demo/pitch.html` and `/demo/pitch.pdf` on the dev server.
+- `npm run demo:evidence` verifies every stored fixture offline, records file
+  hashes and measured results, and exports the real-launch demo plus all three
+  synthetic starter presets to `docs/demo/`.
+- Demo copy distinguishes the original config from rebuilt alternatives, whose
+  standard allocation settings do not preserve source vesting/liquidity splits.
 
 ## Validation
 
@@ -40,6 +48,12 @@ Project: `C:\Users\mixma\Documents\curvelab`.
 - Rechecked after the handoff: 88 tests, typecheck, ESLint, production build,
   and the preset browser checks pass. Independent pre-commit review found no
   security concerns or reproducible logic errors in the milestone.
+- New evidence command and standalone replay check pass: three fixtures,
+  493 exact swaps, one UI-eligible history in the recorded demo snapshot.
+- Deck checked at desktop and mobile widths, with keyboard navigation and no
+  browser errors. PDF has six pages with no content overflow or missing image.
+- Independent review also approved the demo generator and submission kit with
+  no security concerns or reproducible logic errors.
 
 ## Running locally
 
@@ -49,6 +63,9 @@ Project: `C:\Users\mixma\Documents\curvelab`.
   Its process environment pins the free public Solana endpoint explicitly.
   Progress and the current owner PID are in `data/capture.log` and
   `data/capture.lock`. The earlier restart rejection did not recur.
+- At 00:52 UTC the collector owner is PID 12196 and the first new candidate's
+  backfill is at 224/327 transaction reads. New captures are not yet claimed as
+  accepted. Check the log and process before starting any additional job.
 - The capture target is ten accepted histories, not a promise of ten UI-eligible
   comparisons. Public RPC throttling still limits collection speed.
 - Three old overlapping collectors were stopped before starting the guarded run.
@@ -57,16 +74,22 @@ Project: `C:\Users\mixma\Documents\curvelab`.
 
 1. Collect a broader set of UI-eligible mainnet launch histories. The collector
    is running; still three stored histories, one UI-eligible at this checkpoint.
-2. Submission framing and demo. Recheck official terms before submission.
-3. Shared or paid marketplace distribution is future work. The current free
+2. Review the local deck and submission draft. The official Meteora listing
+   was rechecked: closes October 12, 2026 at 11:59 PM Pacific; GitHub and a
+   deck/video link are required. No git remote or public deployment exists.
+3. Public repository, hosting, deck upload, outreach, and submission need an
+   explicit release decision. Colosseum registration is unverified; its FAQ
+   additionally requires presentation and demo videos, which are not recorded.
+4. Shared or paid marketplace distribution is future work. The current free
    catalog is local to the browser, with portable files for sharing.
 
 ## Working tree notes
 
 The narrower simulator sidebar breakpoint in `CurveLab.tsx` and the untracked
 `src/app/api/health/route.ts` existed before this preset work and were preserved.
-No deployment or paid service was used. The reviewed milestone is ready for
-the local preset-catalog commit; demo materials follow in a separate change.
+No deployment or paid service was used. The preset milestone and demo kit are
+committed locally in separate reviewed commits. The repository is on branch
+`mainnet-verification` with no configured remote.
 
 ## Model boundaries
 

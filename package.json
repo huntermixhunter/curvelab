@@ -12,6 +12,7 @@
     "backfill": "tsx scripts/backfill.mts",
     "verify": "tsx scripts/verify.mts",
     "demo": "tsx scripts/demo.mts",
+    "demo:evidence": "tsx scripts/demo-evidence.mts",
     "typecheck": "tsc --noEmit",
     "capture": "tsx scripts/capture.mts"
   },

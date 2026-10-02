@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Curve Lab | A launch curve, tested</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0d0d0d;--panel:#1a1a19;--ink:#fff;--sub:#c3c2b7;--muted:#99978f;--line:#383835;--blue:#69a9f7;--orange:#f17e50;--green:#53cba3;font-family:Arial,Helvetica,sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}button,a{color:inherit}button:focus-visible,a:focus-visible{outline:2px solid var(--blue);outline-offset:5px}
+    .slide{min-height:100svh;padding:40px 6vw 85px;display:grid;grid-template-rows:auto 1fr auto;gap:28px}.slide[hidden]{display:none}
+    .eyebrow,.footer,.mono{font-family:Consolas,'Courier New',monospace}.eyebrow{color:var(--sub);font-size:13px;letter-spacing:.12em;text-transform:uppercase;display:flex;justify-content:space-between;gap:20px}.eyebrow span:last-child{color:var(--muted)}
+    h1,h2,h3,p{margin:0}h1{font-size:clamp(54px,7.7vw,112px);line-height:.99;letter-spacing:-.065em;max-width:1100px}h2{font-size:clamp(35px,4.5vw,64px);line-height:1.04;letter-spacing:-.045em;max-width:1000px}h3{font-size:26px;letter-spacing:-.025em}
+    p{font-size:21px;line-height:1.5;color:var(--sub);max-width:790px}.lead{font-size:25px;line-height:1.4;max-width:800px}.muted{color:var(--muted)}.small{font-size:15px;line-height:1.5}.blue{color:var(--blue)}.orange{color:var(--orange)}.green{color:var(--green)}
+    .body{align-self:center;display:grid;gap:30px}.footer{display:flex;justify-content:space-between;gap:22px;font-size:12px;line-height:1.4;color:var(--muted);border-top:1px solid var(--line);padding-top:17px}.footer span:first-child{max-width:78%}
+    .rule{border-top:1px solid var(--line);padding-top:20px}.split{display:grid;grid-template-columns:1.15fr 1fr;gap:70px;align-items:center}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:35px}.step{display:grid;gap:18px;border-top:2px solid var(--line);padding-top:20px}.step p{font-size:19px}.step .number{font:18px Consolas,monospace;color:var(--blue)}
+    .big{font-size:clamp(100px,14vw,200px);font-weight:700;line-height:.9;letter-spacing:-.075em}.metric-label{font-size:22px;margin-top:18px}.facts{display:grid;gap:26px}.fact strong{display:block;font-size:34px;margin-bottom:8px;font-weight:400;letter-spacing:-.035em}.fact p{font-size:18px}
+    table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;text-align:left}th{font-size:13px;font-weight:400;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:12px 12px 14px 0}td{font-size:29px;padding:20px 12px 20px 0;border-top:1px solid var(--line)}td:first-child{font-size:20px}td:last-child,th:last-child{text-align:right;padding-right:0}.data-note{font-size:15px;max-width:1000px}
+    figure{margin:0}figure img{display:block;width:100%;height:min(49vh,440px);object-fit:contain;object-position:left center;border:1px solid var(--line);background:var(--bg)}figcaption{font-size:13px;color:var(--muted);margin-top:10px}
+    .flow{display:flex;gap:15px;flex-wrap:wrap;font:15px Consolas,monospace;color:var(--sub)}.flow span{border-bottom:2px solid var(--blue);padding:12px 0;margin-right:15px}.code{font:18px/1.7 Consolas,monospace;color:var(--blue)}
+    nav{position:fixed;bottom:16px;right:6vw;display:flex;align-items:center;gap:14px;z-index:2;background:var(--bg);padding:7px}nav button{background:transparent;border:1px solid var(--line);padding:9px 16px;cursor:pointer;font-size:14px}nav button:disabled{opacity:.35;cursor:default}nav output{font:13px Consolas,monospace;min-width:44px;text-align:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+    @media(max-width:720px){.slide{padding:25px 24px 95px;gap:35px}.eyebrow{font-size:10px}.split,.steps{grid-template-columns:1fr;gap:26px}.body{gap:24px}.lead{font-size:22px}p{font-size:18px}.footer{font-size:10px}h1{font-size:58px}h2{font-size:38px}.big{font-size:110px}.facts{gap:16px}table{table-layout:fixed}th{font-size:10px}td{font-size:19px;padding:18px 4px 18px 0}td:first-child{font-size:15px}.step p{font-size:17px}figure img{height:auto}nav{right:16px}.footer span:first-child{max-width:85%}}
+    @page{size:1280px 720px;margin:0}
+    @media print{body{print-color-adjust:exact;-webkit-print-color-adjust:exact}.slide,.slide[hidden]{display:grid;width:1280px;height:720px;min-height:0;padding:38px 68px 30px;gap:24px;break-after:page;overflow:hidden}.slide:last-of-type{break-after:auto}nav,.sr-only{display:none}h1{font-size:100px}h2{font-size:54px}p{font-size:20px}.body{gap:26px}.lead{font-size:24px}.big{font-size:180px}figure img{height:388px}.step p{font-size:18px}td{padding:18px 12px 18px 0}.footer{font-size:11px}}
+  </style>
+</head>
+<body>
+<main aria-label="Curve Lab pitch deck">
+  <section class="slide" aria-labelledby="title-1">
+    <header class="eyebrow"><span>Curve Lab</span><span>Meteora DBC / Builder tooling</span></header>
+    <div class="body">
+      <h1 id="title-1">A launch curve.<br><span class="blue">Tested before launch.</span></h1>
+      <p class="lead">Compare graduation targets against the same demand. Keep the experiment that explains the tradeoff.</p>
+      <div class="flow"><span>Verified mainnet histories</span><span>Meteora SDK math</span><span>Portable presets</span></div>
+    </div>
+    <footer class="footer"><span>Built by Hunter Mix / Working local prototype / October 2026</span><span>01 / 06</span></footer>
+  </section>
+  <section class="slide" aria-labelledby="title-2" hidden>
+    <header class="eyebrow"><span>01 / The decision</span><span>245 buys / 28.8436 SOL</span></header>
+    <div class="body">
+      <h2 id="title-2">Same orders.<br>Very different migration timing.</h2>
+      <table aria-label="Measured buys-only comparison">
+        <thead><tr><th>Scenario</th><th>Target, SOL</th><th>Graduates at buy</th><th>DBC fee value, SOL</th></tr></thead>
+        <tbody><tr><td class="blue">Graduate sooner</td><td>5.48</td><td>1</td><td>0.01096</td></tr><tr><td>Original config</td><td>10.96</td><td>45</td><td>0.02192</td></tr><tr><td class="orange">Graduate later</td><td>21.92</td><td>199</td><td>0.04384</td></tr></tbody>
+      </table>
+      <p class="data-note">Buy orders stay fixed; sells are omitted. Alternatives use standard allocation defaults. Fee values combine partner and creator shares and are not SOL cash payouts.</p>
+    </div>
+    <footer class="footer"><span>Measured reference launch: 7CSnmLkKq4XD1DRZW3FuLbS6xebpaDtg6j3zjzzkwt6U</span><span>02 / 06</span></footer>
+  </section>
+  <section class="slide" aria-labelledby="title-3" hidden>
+    <header class="eyebrow"><span>02 / The working product</span><span>Local application capture</span></header>
+    <div class="body">
+      <h2 id="title-3">See the path to graduation.</h2>
+      <figure><img src="launch.png" alt="Actual Curve Lab chart showing graduation at buys 1, 45, and 199 for the same recorded buy flow"><figcaption>Actual interface capture. Each line stops when its curve graduates; the comparison also accounts for unfilled and later demand.</figcaption></figure>
+    </div>
+    <footer class="footer"><span>Interactive design controls, indexed charts, fee accounting, and a recorded-config baseline.</span><span>03 / 06</span></footer>
+  </section>
+  <section class="slide" aria-labelledby="title-4" hidden>
+    <header class="eyebrow"><span>03 / Verification</span><span>Offline, reproducible evidence</span></header>
+    <div class="body">
+      <h2 id="title-4">The stored swaps replay exactly.</h2>
+      <div class="split">
+        <div><div class="big green">493<span style="font-size:.28em;letter-spacing:-.04em"> / 493</span></div><p class="metric-label">Recorded swaps matched.</p><p class="small muted" style="margin-top:18px">Integer checks cover output amount, next price, and quote reserve.</p></div>
+        <div class="facts"><div class="fact"><strong>3 verified histories</strong><p>One fits the current designer. The other two remain available to offline verification.</p></div><div class="fact"><strong>Buys and sells, checked</strong><p>The original launch migrates at swap 491. The buys-only baseline migrates at buy 45.</p></div><div class="fact"><strong>Incomplete data is quarantined</strong><p>Reserve continuity and replay checks run before a fixture enters the corpus.</p></div></div>
+      </div>
+    </div>
+    <footer class="footer"><span>Snapshot: October 1, 2026 Pacific / Fixture hashes and measured results in docs/demo/evidence.json</span><span>04 / 06</span></footer>
+  </section>
+  <section class="slide" aria-labelledby="title-5" hidden>
+    <header class="eyebrow"><span>04 / Reusable experiments</span><span>Three free starters included</span></header>
+    <div class="body">
+      <h2 id="title-5">Keep the inputs.<br>Reproduce the result.</h2>
+      <div class="steps">
+        <div class="step"><span class="number">01 / LOAD</span><h3>Start with a question</h3><p>Explore graduation timing, curve length, or fee sensitivity with a complete saved comparison.</p></div>
+        <div class="step"><span class="number">02 / FORK</span><h3>Change one assumption</h3><p>Make an independent copy, change a control, and record the intended use and your reasoning.</p></div>
+        <div class="step"><span class="number">03 / SHARE</span><h3>Export the experiment</h3><p>Import validated JSON in another browser. Mainnet examples need the same verified fixture.</p></div>
+      </div>
+      <p class="small rule">Working today: browser storage, search, import, export, and source attribution. Files contain simulation inputs. A shared or paid marketplace is future work.</p>
+    </div>
+    <footer class="footer"><span>Portable experiments preserve demand, all curves, descriptions, and intended uses.</span><span>05 / 06</span></footer>
+  </section>
+  <section class="slide" aria-labelledby="title-6" hidden>
+    <header class="eyebrow"><span>05 / The next test</span><span>Builder feedback before expansion</span></header>
+    <div class="body">
+      <h2 id="title-6">Try a verified launch.<br><span class="blue">Fork one assumption.</span></h2>
+      <div class="split">
+        <div class="facts"><p class="lead">For launchpad builders evaluating the DBC phase of a new asset launch.</p><p class="code">npm ci<br>npm run dev<br>npm run demo:evidence</p></div>
+        <div class="facts"><div class="fact"><strong>Next: five builder pilots</strong><p>Gather feedback on configuration choices and reproducibility. No external usage or revenue is claimed yet.</p></div><div class="fact"><strong>Then: shared configuration work</strong><p>Broader histories and team libraries. Tokenized-equity applications remain an unvalidated use case.</p></div></div>
+      </div>
+      <p class="small rule">Current scope excludes post-migration trading, dynamic fees, wallet execution, and trader-behavior prediction. The prototype and this deck are prepared locally for release review.</p>
+    </div>
+    <footer class="footer"><span>Curve Lab / Rehearsal guide: docs/DEMO.md / Submission draft: docs/SUBMISSION.md</span><span>06 / 06</span></footer>
+  </section>
+</main>
+<nav aria-label="Slide navigation"><button type="button" id="previous" aria-label="Previous slide">Previous</button><output id="position" aria-label="Slide number">1 / 6</output><button type="button" id="next" aria-label="Next slide">Next</button></nav>
+<p class="sr-only" aria-live="polite" id="announcement"></p>
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const previous = document.getElementById('previous');
+  const next = document.getElementById('next');
+  let current = 0;
+  function show(index) {
+    current = Math.max(0, Math.min(slides.length - 1, index));
+    slides.forEach((slide, i) => { slide.hidden = i !== current; });
+    previous.disabled = current === 0;
+    next.disabled = current === slides.length - 1;
+    document.getElementById('position').textContent = `${current + 1} / ${slides.length}`;
+    document.getElementById('announcement').textContent = slides[current].querySelector('h1,h2').textContent;
+    window.scrollTo(0, 0);
+  }
+  previous.addEventListener('click', () => show(current - 1));
+  next.addEventListener('click', () => show(current + 1));
+  document.addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
+    const targets = {ArrowRight: current + 1, ArrowLeft: current - 1, Home: 0, End: slides.length - 1};
+    if (Object.hasOwn(targets, event.key)) { event.preventDefault(); show(targets[event.key]); }
+  });
+  show(0);
+</script>
+</body>
+</html>

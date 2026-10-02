@@ -1,0 +1,55 @@
+{
+  "format": "curvelab-preset",
+  "version": 1,
+  "id": "starter-fees",
+  "name": "Fee sensitivity",
+  "description": "Replay identical buy orders at 0.25%, 1%, and 2% base fees. Demand stays fixed even when fees change.",
+  "useCase": "Compare fee accounting without assuming traders accept higher fees.",
+  "createdAt": "2026-10-01T00:00:00.000Z",
+  "simulation": {
+    "curves": [
+      {
+        "id": "starter-fees-0",
+        "label": "0.25% fee",
+        "slot": 0,
+        "curve": {
+          "migrationThresholdQuote": 85,
+          "curveLength": 20,
+          "baseFeeBps": 25,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      },
+      {
+        "id": "starter-fees-1",
+        "label": "1% fee",
+        "slot": 1,
+        "curve": {
+          "migrationThresholdQuote": 85,
+          "curveLength": 20,
+          "baseFeeBps": 100,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      },
+      {
+        "id": "starter-fees-2",
+        "label": "2% fee",
+        "slot": 2,
+        "curve": {
+          "migrationThresholdQuote": 85,
+          "curveLength": 20,
+          "baseFeeBps": 200,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      }
+    ],
+    "demand": {
+      "kind": "synthetic",
+      "shape": "flat",
+      "buys": 120,
+      "totalQuote": 120
+    }
+  }
+}

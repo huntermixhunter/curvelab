@@ -1,0 +1,94 @@
+{
+  "generatedAt": "2026-10-02T00:51:41.914Z",
+  "sourceCommit": "57fd9853e508a740f06843b54ff795ca34f1c1cb",
+  "sourceDirty": true,
+  "fixtures": [
+    {
+      "file": "data/pools/7CSnmLkKq4XD1DRZW3FuLbS6xebpaDtg6j3zjzzkwt6U.json",
+      "pool": "7CSnmLkKq4XD1DRZW3FuLbS6xebpaDtg6j3zjzzkwt6U",
+      "sha256": "d538bd4ebb4d3e73698677b29ad29ebe82455946951b66b2df42a660baa83539",
+      "swaps": 491,
+      "matched": 491,
+      "comparisonIssue": null
+    },
+    {
+      "file": "data/pools/818zeaEL7Y9pCcoHvWZv7ayLiF612TNJy2pwokH3Hkzn.json",
+      "pool": "818zeaEL7Y9pCcoHvWZv7ayLiF612TNJy2pwokH3Hkzn",
+      "sha256": "7d351a1d8b5832587fcfa92342d1b4d70eb6a1c85c71df50cdd1f297d580463c",
+      "swaps": 1,
+      "matched": 1,
+      "comparisonIssue": "This pool is outside the curve designer's supported parameter range."
+    },
+    {
+      "file": "data/pools/YNyhJEAs6hsFkctqNRsTJZdDXujE33sFGxi2nry4kdF.json",
+      "pool": "YNyhJEAs6hsFkctqNRsTJZdDXujE33sFGxi2nry4kdF",
+      "sha256": "db2d4850edfc937ddb396bbc812bd0dd01540881d5ac33a8b38ebd0ddaabc59d",
+      "swaps": 1,
+      "matched": 1,
+      "comparisonIssue": "This pool is outside the curve designer's supported parameter range."
+    }
+  ],
+  "verifiedPools": 3,
+  "verifiedSwaps": 493,
+  "uiEligiblePools": 1,
+  "reference": {
+    "pool": "7CSnmLkKq4XD1DRZW3FuLbS6xebpaDtg6j3zjzzkwt6U",
+    "demand": {
+      "kind": "pool",
+      "label": "7CSn…wt6U real buy flow",
+      "buys": 245,
+      "totalQuote": 28.843563996,
+      "largestBuyShare": 0.2849855864254481,
+      "source": "7CSnmLkKq4XD1DRZW3FuLbS6xebpaDtg6j3zjzzkwt6U"
+    },
+    "onChain": {
+      "graduatedAtTrade": 491,
+      "buys": 245,
+      "sells": 246,
+      "lifetimeSeconds": 88,
+      "failedTransactions": 164
+    }
+  },
+  "comparison": [
+    {
+      "label": "Graduate sooner",
+      "migrationThresholdQuote": 5.480000004,
+      "graduatedAtTrade": 1,
+      "quoteThroughCurve": 5.480000004,
+      "quoteUnfilled": 2.739999996,
+      "quoteStranded": 20.623563996,
+      "tradingFee": 0.010960000008004723,
+      "initialMarketCap": 7.617227342646925,
+      "finalMarketCap": 12.499999880905738
+    },
+    {
+      "label": "Actual curve",
+      "migrationThresholdQuote": 10.96,
+      "graduatedAtTrade": 45,
+      "quoteThroughCurve": 10.960000001,
+      "quoteUnfilled": 0.057065853,
+      "quoteStranded": 17.826498142,
+      "tradingFee": 0.02192000001954166,
+      "initialMarketCap": 304.68909660881485,
+      "finalMarketCap": 500
+    },
+    {
+      "label": "Graduate later",
+      "migrationThresholdQuote": 21.920000019,
+      "graduatedAtTrade": 199,
+      "quoteThroughCurve": 21.92000002,
+      "quoteUnfilled": 0.044744814,
+      "quoteStranded": 6.878819162,
+      "tradingFee": 0.04384000004709824,
+      "initialMarketCap": 30.4689093705877,
+      "finalMarketCap": 49.999999523622954
+    }
+  ],
+  "boundaries": [
+    "Counterfactuals hold recorded buys fixed and omit sells on every curve.",
+    "Designed alternatives use the standard builder allocation; they do not clone the original vesting or liquidity allocation.",
+    "Only the stored on-chain replay includes both buys and sells.",
+    "Combined partner and creator DBC fees are valued at each execution rate; base-token fees are not SOL cash payouts.",
+    "Post-migration DAMM fees, dynamic fees, trader reactions, and tokenized-equity data are not modeled."
+  ]
+}

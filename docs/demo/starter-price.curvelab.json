@@ -1,0 +1,55 @@
+{
+  "format": "curvelab-preset",
+  "version": 1,
+  "id": "starter-price",
+  "name": "Same target, different climb",
+  "description": "Three price ranges, one 85 SOL target. Follow price multiples as the same gradual demand reaches each curve.",
+  "useCase": "Isolate the effect of curve length on the price path.",
+  "createdAt": "2026-10-01T00:00:00.000Z",
+  "simulation": {
+    "curves": [
+      {
+        "id": "starter-price-0",
+        "label": "5x climb",
+        "slot": 0,
+        "curve": {
+          "migrationThresholdQuote": 85,
+          "curveLength": 5,
+          "baseFeeBps": 100,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      },
+      {
+        "id": "starter-price-1",
+        "label": "20x climb",
+        "slot": 1,
+        "curve": {
+          "migrationThresholdQuote": 85,
+          "curveLength": 20,
+          "baseFeeBps": 100,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      },
+      {
+        "id": "starter-price-2",
+        "label": "80x climb",
+        "slot": 2,
+        "curve": {
+          "migrationThresholdQuote": 85,
+          "curveLength": 80,
+          "baseFeeBps": 100,
+          "creatorTradingFeePercentage": 0,
+          "totalTokenSupply": 1000000000
+        }
+      }
+    ],
+    "demand": {
+      "kind": "synthetic",
+      "shape": "organic",
+      "buys": 120,
+      "totalQuote": 120
+    }
+  }
+}
