@@ -83,7 +83,8 @@ So Curve Lab inverts it and exposes the two decisions that do carry meaning:
 
 At a fixed length the threshold is exactly linear in the market-cap level, so
 the inversion is one build and a division rather than a search. It reproduces
-any target to within 1e-6 from 1 SOL to 3,000 SOL, and `npm test` holds it there.
+tested targets from 1 SOL to 3,000 SOL to within 1e-6, and `npm test` holds it
+there.
 
 ## How it works
 
@@ -148,7 +149,9 @@ the next trade's recorded reserve, a swap between them is missing. The backfill
 detects gaps, re-reads to close them, recovers the order of trades sharing a
 slot by search, and reports whatever it could not fix instead of hiding it.
 
-Curve Lab proves its data is complete rather than asking you to trust it.
+Curve Lab checks its data for completeness rather than asking you to trust it:
+the reserve chain must account for every lamport from the pool's first swap to
+its last.
 
 ## Running it
 

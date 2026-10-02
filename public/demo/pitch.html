@@ -32,7 +32,7 @@
       <p class="lead">Compare graduation targets against the same demand. Keep the experiment that explains the tradeoff.</p>
       <div class="flow"><span>Verified mainnet histories</span><span>Meteora SDK math</span><span>Portable presets</span></div>
     </div>
-    <footer class="footer"><span>Built by Hunter Mix / Working local prototype / October 2026</span><span>01 / 06</span></footer>
+    <footer class="footer"><span>Built by Hunter Mix / Live: curvelab-lake.vercel.app / Source: github.com/huntermixhunter/curvelab</span><span>01 / 06</span></footer>
   </section>
   <section class="slide" aria-labelledby="title-2" hidden>
     <header class="eyebrow"><span>01 / The decision</span><span>245 buys / 28.8436 SOL</span></header>
@@ -47,7 +47,7 @@
     <footer class="footer"><span>Measured reference launch: 7CSnmLkKq4XD1DRZW3FuLbS6xebpaDtg6j3zjzzkwt6U</span><span>02 / 06</span></footer>
   </section>
   <section class="slide" aria-labelledby="title-3" hidden>
-    <header class="eyebrow"><span>02 / The working product</span><span>Local application capture</span></header>
+    <header class="eyebrow"><span>02 / The working product</span><span>Screenshot from the application</span></header>
     <div class="body">
       <h2 id="title-3">See the path to graduation.</h2>
       <figure><img src="launch.png" alt="Actual Curve Lab chart showing graduation at buys 1, 45, and 199 for the same recorded buy flow"><figcaption>Actual interface capture. Each line stops when its curve graduates; the comparison also accounts for unfilled and later demand.</figcaption></figure>
@@ -59,8 +59,8 @@
     <div class="body">
       <h2 id="title-4">The stored swaps replay exactly.</h2>
       <div class="split">
-        <div><div class="big green">493<span style="font-size:.28em;letter-spacing:-.04em"> / 493</span></div><p class="metric-label">Recorded swaps matched.</p><p class="small muted" style="margin-top:18px">Integer checks cover output amount, next price, and quote reserve.</p></div>
-        <div class="facts"><div class="fact"><strong>3 verified histories</strong><p>One fits the current designer. The other two remain available to offline verification.</p></div><div class="fact"><strong>Buys and sells, checked</strong><p>The original launch migrates at swap 491. The buys-only baseline migrates at buy 45.</p></div><div class="fact"><strong>Incomplete data is quarantined</strong><p>Reserve continuity and replay checks run before a fixture enters the corpus.</p></div></div>
+        <div><div class="big green">491<span style="font-size:.28em;letter-spacing:-.04em"> / 491</span></div><p class="metric-label">Swaps in the reference launch, matched.</p><p class="small muted" style="margin-top:18px">Integer checks cover output amount, next price, and quote reserve. Two further single-swap fixtures also replay exactly, for 493 in all.</p></div>
+        <div class="facts"><div class="fact"><strong>One full launch, verified</strong><p>The reference launch replays swap for swap and fits the current designer. The other two fixtures hold one swap each and sit outside its parameter range.</p></div><div class="fact"><strong>Buys and sells, checked</strong><p>The original launch migrates at swap 491. The buys-only baseline migrates at buy 45.</p></div><div class="fact"><strong>Incomplete data is quarantined</strong><p>Reserve continuity and replay checks run before a fixture enters the corpus, so this rate reflects the admission gate as well as the result.</p></div></div>
       </div>
     </div>
     <footer class="footer"><span>Snapshot: October 1, 2026 Pacific / Fixture hashes and measured results in docs/demo/evidence.json</span><span>04 / 06</span></footer>
@@ -83,12 +83,12 @@
     <div class="body">
       <h2 id="title-6">Try a verified launch.<br><span class="blue">Fork one assumption.</span></h2>
       <div class="split">
-        <div class="facts"><p class="lead">For launchpad builders evaluating the DBC phase of a new asset launch.</p><p class="code">npm ci<br>npm run dev<br>npm run demo:evidence</p></div>
+        <div class="facts"><p class="lead">For launchpad builders evaluating the DBC phase of a new asset launch.</p><p class="code">Open <span class="blue">curvelab-lake.vercel.app</span><br><br>Or run it yourself:<br>npm ci<br>npm run dev<br>npm run demo:evidence</p></div>
         <div class="facts"><div class="fact"><strong>Next: five builder pilots</strong><p>Gather feedback on configuration choices and reproducibility. No external usage or revenue is claimed yet.</p></div><div class="fact"><strong>Then: shared configuration work</strong><p>Broader histories and team libraries. Tokenized-equity applications remain an unvalidated use case.</p></div></div>
       </div>
-      <p class="small rule">Current scope excludes post-migration trading, dynamic fees, wallet execution, and trader-behavior prediction. The prototype and this deck are prepared locally for release review.</p>
+      <p class="small rule">Current scope excludes post-migration trading, dynamic fees, wallet execution, and trader-behavior prediction. The application is deployed publicly and the source is open under MIT.</p>
     </div>
-    <footer class="footer"><span>Curve Lab / Rehearsal guide: docs/DEMO.md / Submission draft: docs/SUBMISSION.md</span><span>06 / 06</span></footer>
+    <footer class="footer"><span>Curve Lab / curvelab-lake.vercel.app / github.com/huntermixhunter/curvelab</span><span>06 / 06</span></footer>
   </section>
 </main>
 <nav aria-label="Slide navigation"><button type="button" id="previous" aria-label="Previous slide">Previous</button><output id="position" aria-label="Slide number">1 / 6</output><button type="button" id="next" aria-label="Next slide">Next</button></nav>

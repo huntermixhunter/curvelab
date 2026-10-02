@@ -1,6 +1,6 @@
 # Curve Lab submission draft
 
-Prepared October 1, 2026 Pacific. Review draft; not submitted.
+Prepared October 1, 2026 Pacific. Meteora DBC bounty only.
 
 ## Form-ready project description
 
@@ -13,8 +13,9 @@ The engine uses Meteora's DBC SDK math and carries virtual pool state through
 each trade. It reports graduation timing, price progression, combined partner
 and creator DBC fee value, partial-fill returns, and demand arriving after
 migration. Each stored history must pass a reserve-continuity check and exact
-replay before admission. The demo snapshot reproduces all 493 swaps across
-three stored histories, with one launch supported by the current designer.
+replay before admission. The demo snapshot reproduces all 491 swaps of the
+reference launch, plus two single-swap fixtures that sit outside the designer's
+parameter range, for 493 in all. One launch is supported by the current designer.
 
 The working preset library lets builders save, fork, search, export, and import
 complete experiments. It includes three free synthetic comparisons and a
@@ -68,12 +69,11 @@ suggested directions.
 
 Official Superteam listing: https://earn.superteam.fun/listing/meteora-dbc/
 
-Colosseum requires registration before submission. Its official FAQ requests a
-repository, a two-to-three-minute presentation, and a product demo no longer
-than three minutes. It also requests team and business context. Only one
-product per participant is allowed, and relevant prior work must be disclosed.
-The deck satisfies only the Superteam deck alternative; it does not replace
-Colosseum's video requirements.
+Colosseum: the answer is **No**. This is a Meteora bounty submission only. Curve
+Lab is not registered for the Colosseum hackathon and is not being submitted to
+it, so Colosseum's separate presentation and demo video requirements do not
+apply. The deck satisfies the Superteam deck alternative, which is what this
+listing asks for.
 
 Official Colosseum FAQ: https://colosseum.com/hackathon
 
@@ -88,9 +88,9 @@ Recheck both forms before sending; fields and access requirements may change.
 | GitHub URL | https://github.com/huntermixhunter/curvelab |
 | Deck/video URL | https://curvelab-lake.vercel.app/demo/pitch.pdf ; no video recorded |
 | Product website | https://curvelab-lake.vercel.app |
-| Colosseum registration/submission | Not verified; do not answer Yes on inference |
-| Team details | Confirm actual participating members and account profiles |
-| Colosseum videos | Record and upload presentation and demo if entering |
+| Colosseum submission question | **No.** Meteora bounty only; not registered, not entering |
+| Team details | Solo builder: Hunter Mix |
+| Colosseum videos | Not applicable. Not entering Colosseum |
 | License | MIT; full terms in `LICENSE`, copyright 2026 Hunter Mix |
 | Builder feedback | Target five launchpad builders; outreach has not been sent |
 
