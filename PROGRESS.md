@@ -97,19 +97,63 @@ Project: `C:\Users\mixma\Documents\curvelab`.
   comparisons. Public RPC throttling still limits collection speed.
 - Three old overlapping collectors were stopped before starting the guarded run.
 
+## Submission status: SENT
+
+Submitted to the Meteora DBC bounty on Superteam Earn, October 1, 2026 Pacific.
+The listing shows "Edit Submission" and the count moved 18 to 19, so the entry
+is recorded. It remains editable until the deadline, October 12, 2026 at
+11:59 PM Pacific.
+
+- Listing: https://earn.superteam.fun/listing/meteora-dbc/
+- Submitted under a new Superteam Earn talent profile: @huntermixhunter,
+  signed in with Google as hunterthomasmix@gmail.com. Skills: Blockchain,
+  Frontend, Typescript. Social: github.com/huntermixhunter.
+- Submitted values: link and website https://curvelab-lake.vercel.app ;
+  GitHub https://github.com/huntermixhunter/curvelab ; deck
+  https://curvelab-lake.vercel.app/demo/pitch.pdf ; Colosseum question
+  answered **No**; tweet, Project X, and both Colosseum links left blank.
+- Colosseum is deliberately out of scope. Meteora bounty only, so its separate
+  presentation and demo videos are not required.
+- Open item: prize payout would land on the Privy wallet tied to that Earn
+  account, which currently holds $0 and has not been linked to a wallet the
+  Captain controls. Worth confirming before any award.
+
+## Pre-submission corrections
+
+Independent review (Riker) confirmed the mainnet verification is genuine, not
+circular: fixture expectations are decoded from the DBC program's own EvtSwap2
+events, the engine only ever receives amountIn, and a deliberate one-lamport
+perturbation of the math drops the match from 491/491 to 0/491. Three claims
+were corrected before sending:
+
+1. The deck headline read "493 / 493 across 3 verified histories", which reads
+   as three full launches. It is one 491-swap reference launch plus two
+   single-swap fixtures outside the designer's range. The slide now reports
+   491/491 and footnotes the rest, matching the README.
+2. The deck also now discloses that fixtures are admitted only when they
+   already replay exactly, so the match rate reflects the admission gate.
+3. README: "reproduces any target" narrowed to the tested 1 to 3,000 SOL range;
+   "proves its data is complete" softened to "checks".
+
+Two publication defects were also fixed:
+
+- The deck carried no live or source address and still called itself a
+  "working local prototype". It now leads with both URLs.
+- `docs/demo/evidence.json` published fixture hashes that only reproduced on
+  Linux and macOS. With core.autocrlf the repository stored LF but a Windows
+  clone checked out CRLF, so the same commit hashed differently per platform.
+  `.gitattributes` now marks the fixtures -text, and the evidence was
+  regenerated from a clean tree (sourceDirty is now false).
+
 ## Remaining product work
 
-1. Collect a broader set of UI-eligible mainnet launch histories. The collector
-   is running; still three stored histories, one UI-eligible at this checkpoint.
-2. Review the local deck and submission draft. The official Meteora listing
-   was rechecked: closes October 12, 2026 at 11:59 PM Pacific; GitHub and a
-   deck/video link are required. Public application and deck URLs are now
-   recorded in `docs/DEMO.md` and `docs/SUBMISSION.md`.
-3. Outreach and submission still need an explicit decision. Colosseum
-   registration is unverified; its FAQ
-   additionally requires presentation and demo videos, which are not recorded.
-4. Shared or paid marketplace distribution is future work. The current free
+1. Collect a broader set of UI-eligible mainnet launch histories. Still three
+   stored histories, one UI-eligible at this checkpoint.
+2. Outreach to five launchpad builders has not been sent.
+3. Shared or paid marketplace distribution is future work. The current free
    catalog is local to the browser, with portable files for sharing.
+4. No video is recorded. The Superteam listing accepts a deck, which is what
+   was submitted.
 
 ## Working tree notes
 
