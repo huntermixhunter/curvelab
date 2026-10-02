@@ -1,6 +1,6 @@
 # Curve Lab submission draft
 
-Prepared October 1, 2026 Pacific. Local review copy; not submitted.
+Prepared October 1, 2026 Pacific. Review draft; not submitted.
 
 ## Form-ready project description
 
@@ -82,13 +82,13 @@ Recheck both forms before sending; fields and access requirements may change.
 |---|---|
 | Project name | Curve Lab |
 | Description | Draft above is ready for review |
-| GitHub URL | No remote configured; repository publication pending approval |
-| Deck/video URL | Local HTML and PDF prepared; upload pending approval |
+| GitHub URL | https://github.com/huntermixhunter/curvelab |
+| Deck/video URL | PDF available in the public repository at `public/demo/pitch.pdf`; no video recorded |
 | Product website | Local only; deployment pending approval |
 | Colosseum registration/submission | Not verified; do not answer Yes on inference |
 | Team details | Confirm actual participating members and account profiles |
 | Colosseum videos | Record and upload presentation and demo if entering |
-| License | README says MIT; add a license file with confirmed copyright holder before publication |
+| License | MIT; full terms in `LICENSE`, copyright 2026 Hunter Mix |
 | Builder feedback | Target five launchpad builders; outreach has not been sent |
 
 ## Distribution and business hypotheses

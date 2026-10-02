@@ -32,6 +32,10 @@ Project: `C:\Users\mixma\Documents\curvelab`.
   synthetic starter presets to `docs/demo/`.
 - Demo copy distinguishes the original config from rebuilt alternatives, whose
   standard allocation settings do not preserve source vesting/liquidity splits.
+- Public source release: https://github.com/huntermixhunter/curvelab
+- Release branch is `main`, fast-forwarded from the reviewed
+  `mainnet-verification` milestone. MIT license and fresh-clone instructions
+  are included with the source, fixtures, portable presets, and demo deck.
 
 ## Validation
 
@@ -54,6 +58,10 @@ Project: `C:\Users\mixma\Documents\curvelab`.
   browser errors. PDF has six pages with no content overflow or missing image.
 - Independent review also approved the demo generator and submission kit with
   no security concerns or reproducible logic errors.
+- Public-release checks passed: 88 tests, typecheck, ESLint, production build,
+  and whitespace validation. A targeted credential scan covered all 111
+  historical file blobs before the release-doc commit, with no matches.
+  The six-page PDF text, metadata, and published screenshot were also reviewed.
 
 ## Running locally
 
@@ -76,9 +84,10 @@ Project: `C:\Users\mixma\Documents\curvelab`.
    is running; still three stored histories, one UI-eligible at this checkpoint.
 2. Review the local deck and submission draft. The official Meteora listing
    was rechecked: closes October 12, 2026 at 11:59 PM Pacific; GitHub and a
-   deck/video link are required. No git remote or public deployment exists.
-3. Public repository, hosting, deck upload, outreach, and submission need an
-   explicit release decision. Colosseum registration is unverified; its FAQ
+   deck/video link are required. The public repository includes the PDF deck;
+   the application is not publicly deployed.
+3. Public application hosting, outreach, and submission need an explicit
+   release decision. Colosseum registration is unverified; its FAQ
    additionally requires presentation and demo videos, which are not recorded.
 4. Shared or paid marketplace distribution is future work. The current free
    catalog is local to the browser, with portable files for sharing.
@@ -88,8 +97,9 @@ Project: `C:\Users\mixma\Documents\curvelab`.
 The narrower simulator sidebar breakpoint in `CurveLab.tsx` and the untracked
 `src/app/api/health/route.ts` existed before this preset work and were preserved.
 No deployment or paid service was used. The preset milestone and demo kit are
-committed locally in separate reviewed commits. The repository is on branch
-`mainnet-verification` with no configured remote.
+committed in separate reviewed commits. The release branch is `main`.
+The `origin` remote is https://github.com/huntermixhunter/curvelab.git
+The earlier `mainnet-verification` branch remains available locally.
 
 ## Model boundaries
 

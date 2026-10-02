@@ -2,6 +2,8 @@
 
 **Design a Meteora Dynamic Bonding Curve before you launch on it.**
 
+Source repository: https://github.com/huntermixhunter/curvelab
+
 Today every launchpad operator picks a bonding curve blind. You choose a start
 market cap, a migration market cap, and a fee, then you find out whether it was
 right by watching a real token succeed or fail with real money on it.
@@ -149,7 +151,9 @@ Curve Lab proves its data is complete rather than asking you to trust it.
 ## Running it
 
 ```bash
-npm install
+git clone https://github.com/huntermixhunter/curvelab.git
+cd curvelab
+npm ci
 npm run dev                  # the lab, at http://localhost:3000
 npm test                     # offline regression suite and stored mainnet replays
 npm run build                # production build
@@ -241,7 +245,7 @@ the default needs no paid account.
 
 ## Licence
 
-MIT.
+MIT. See `LICENSE` for the full terms.
 
 ## Demo and submission materials
 

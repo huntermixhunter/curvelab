@@ -1,6 +1,9 @@
 # Curve Lab demo kit
 
-Local rehearsal package. No submission or public deployment has been made.
+Rehearsal package included in the public source repository. No submission or
+public application deployment has been made.
+
+Repository: https://github.com/huntermixhunter/curvelab
 
 ## Open the demo
 
@@ -66,8 +69,9 @@ post-migration trading, and does not predict trader reactions or equity value.
 
 ## Recording and release
 
-- The six-slide PDF is ready for review; it has not been uploaded.
+- The six-slide PDF is included in the public repository at
+  `public/demo/pitch.pdf`.
 - The walkthrough is ready to record; no narrated video is claimed.
 - Check `docs/SUBMISSION.md` for verified requirements and outstanding fields.
-- A public repository, public hosting, outreach, and final submission still
-  require the owner's release decision. No paid service is needed to rehearse.
+- Public application hosting, outreach, and final submission still require
+  the owner's release decision. No paid service is needed to rehearse.
