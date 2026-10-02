@@ -1,0 +1,5 @@
+# Mainnet fixtures are hashed and published in docs/demo/evidence.json.
+# Never translate their line endings: a CRLF checkout would change every
+# sha256 and make the published evidence unreproducible on Windows.
+data/pools/*.json -text
+data/pools-incomplete/*.json -text
