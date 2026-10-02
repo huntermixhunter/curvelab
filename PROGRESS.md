@@ -36,6 +36,15 @@ Project: `C:\Users\mixma\Documents\curvelab`.
 - Release branch is `main`, fast-forwarded from the reviewed
   `mainnet-verification` milestone. MIT license and fresh-clone instructions
   are included with the source, fixtures, portable presets, and demo deck.
+- Public application deployed October 1, 2026 Pacific with approval:
+  https://curvelab-lake.vercel.app
+- Public deck: https://curvelab-lake.vercel.app/demo/pitch.html
+- Public PDF: https://curvelab-lake.vercel.app/demo/pitch.pdf
+- Vercel project `curvelab`, team `huntermixhunters-projects`, active Hobby
+  plan. GitHub `main` is connected for automatic production deployments.
+  Project ID: `prj_cCgonCEMNnN0AdXW6mmLnkXkncc4`.
+- First deployment used a clean archive of source commit `5276905`, excluding
+  local scratch files. No domain purchase or paid service was used.
 
 ## Validation
 
@@ -62,6 +71,16 @@ Project: `C:\Users\mixma\Documents\curvelab`.
   and whitespace validation. A targeted credential scan covered all 111
   historical file blobs before the release-doc commit, with no matches.
   The six-page PDF text, metadata, and published screenshot were also reviewed.
+- Hosting checks: fresh local and Vercel production builds passed. All three
+  fixtures are present in the page, pool-list, and simulation server traces.
+  Anonymous requests return 200 for the app, health, pool list, HTML deck,
+  and PDF deck. All four portable demo inputs simulate successfully; mainnet
+  metrics match the stored evidence and demand accounting balances.
+- Public browser checks pass for mainnet loading, save/reload persistence,
+  fork, JSON export/import, restored inputs, all three synthetic starters,
+  chart switching, and 390/1440-pixel layouts, with no runtime errors.
+  Scratch verifier: `_deployment_check.py`. CDP needs focus emulation when
+  Chrome is hidden so ResizeObserver callbacks run during viewport checks.
 
 ## Running locally
 
@@ -84,10 +103,10 @@ Project: `C:\Users\mixma\Documents\curvelab`.
    is running; still three stored histories, one UI-eligible at this checkpoint.
 2. Review the local deck and submission draft. The official Meteora listing
    was rechecked: closes October 12, 2026 at 11:59 PM Pacific; GitHub and a
-   deck/video link are required. The public repository includes the PDF deck;
-   the application is not publicly deployed.
-3. Public application hosting, outreach, and submission need an explicit
-   release decision. Colosseum registration is unverified; its FAQ
+   deck/video link are required. Public application and deck URLs are now
+   recorded in `docs/DEMO.md` and `docs/SUBMISSION.md`.
+3. Outreach and submission still need an explicit decision. Colosseum
+   registration is unverified; its FAQ
    additionally requires presentation and demo videos, which are not recorded.
 4. Shared or paid marketplace distribution is future work. The current free
    catalog is local to the browser, with portable files for sharing.
@@ -96,10 +115,14 @@ Project: `C:\Users\mixma\Documents\curvelab`.
 
 The narrower simulator sidebar breakpoint in `CurveLab.tsx` and the untracked
 `src/app/api/health/route.ts` existed before this preset work and were preserved.
-No deployment or paid service was used. The preset milestone and demo kit are
-committed in separate reviewed commits. The release branch is `main`.
+The application is now deployed on Vercel's free Hobby plan. The preset
+milestone and demo kit are committed in separate reviewed commits. The release
+branch is `main`; pushes trigger production deployments.
 The `origin` remote is https://github.com/huntermixhunter/curvelab.git
 The earlier `mainnet-verification` branch remains available locally.
+The public server uses the fixture snapshot shipped with each deployment.
+Capture remains a separate local process. Browser presets from localhost need
+JSON export/import to appear on the public origin.
 
 ## Model boundaries
 

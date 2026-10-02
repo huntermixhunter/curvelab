@@ -2,6 +2,8 @@
 
 **Design a Meteora Dynamic Bonding Curve before you launch on it.**
 
+Live simulator: https://curvelab-lake.vercel.app
+
 Source repository: https://github.com/huntermixhunter/curvelab
 
 Today every launchpad operator picks a bonding curve blind. You choose a start
@@ -250,9 +252,23 @@ MIT. See `LICENSE` for the full terms.
 ## Demo and submission materials
 
 The rehearsal guide is in `docs/DEMO.md` and the submission draft is in
-`docs/SUBMISSION.md`. Open the six-slide deck at
-http://localhost:3000/demo/pitch.html with the dev server running, or use
-`public/demo/pitch.pdf`. These are local review materials, not a submitted entry.
+`docs/SUBMISSION.md`. The six-slide deck is public:
+
+HTML deck: https://curvelab-lake.vercel.app/demo/pitch.html
+
+PDF deck: https://curvelab-lake.vercel.app/demo/pitch.pdf
+
+For local rehearsal, open http://localhost:3000/demo/pitch.html with the dev
+server running, or use `public/demo/pitch.pdf`. No entry has been submitted.
+
+### Hosting
+
+The public demo runs on Vercel, with production deployments connected to this
+repository's `main` branch. The simulation runs on the server using the stored
+fixtures; opening the demo does not contact a Solana RPC or require a wallet.
+New captures need to be committed and deployed before they appear publicly.
+Presets are local to each browser and site origin. Export from localhost and
+import on the public site to carry an existing experiment across.
 
 `npm run demo:evidence` verifies the stored corpus offline and writes fixture
 hashes, measured comparison results, and four portable examples to `docs/demo/`.

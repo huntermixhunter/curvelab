@@ -1,22 +1,26 @@
 # Curve Lab demo kit
 
-Rehearsal package included in the public source repository. No submission or
-public application deployment has been made.
+Rehearsal package included in the public source repository. The application
+and deck are publicly deployed. No entry has been submitted.
 
 Repository: https://github.com/huntermixhunter/curvelab
 
 ## Open the demo
 
-Run `npm ci` once in a fresh clone, then `npm run dev`.
+Simulator: https://curvelab-lake.vercel.app
 
-Simulator: http://localhost:3000
+Pitch deck: https://curvelab-lake.vercel.app/demo/pitch.html
 
-Pitch deck: http://localhost:3000/demo/pitch.html
+PDF deck: https://curvelab-lake.vercel.app/demo/pitch.pdf
 
-PDF deck: http://localhost:3000/demo/pitch.pdf
+For local rehearsal, run `npm ci` once in a fresh clone, then `npm run dev`.
+The same routes are available at http://localhost:3000
 
 The deck supports the arrow keys, Home, End, previous/next buttons, and printing.
 All fonts, screenshots, and styles work locally without external services.
+
+Saved presets belong to the browser and site origin. Use JSON export/import
+to move experiments from localhost to the public demo.
 
 ## Reproduce the evidence
 
