@@ -157,7 +157,49 @@ npm run build                # production build
 
 The comparison UI supports real buy flows, three synthetic demand shapes,
 up to three designed curves, indexed progress and price charts, DBC fee
-valuation, and full quote accounting. The preset marketplace is still to come.
+valuation, and full quote accounting. A free preset library saves complete
+experiments with their demand settings, descriptions, and intended uses.
+
+### Preset library
+
+Open **Browse presets** for three built-in comparisons:
+
+- **The graduation tradeoff:** 40 versus 85 SOL migration targets with matching
+  curve length and fees.
+- **Same target, different climb:** 5x, 20x, and 80x price ranges against the
+  same gradual demand.
+- **Fee sensitivity:** 0.25%, 1%, and 2% fees with buy demand held fixed.
+
+**Load** restores the full experiment. **Fork** loads a starter or saved
+experiment and opens a form for a new copy, preserving the source name and ID.
+Change the simulator controls, add a name and notes, then save. **Save current**
+also captures comparisons built directly in the lab. Saving waits for a
+successful simulation of the current settings, including every curve.
+
+Presets persist in this browser and site origin, with a limit of 100 saved
+experiments. Reloading retains the library; loading a saved experiment is
+explicit. **Export JSON** creates a portable `.curvelab.json` file, and
+**Import JSON** adds it to another browser's library. Export current work from
+the save form even if browser storage is unavailable. There are no accounts,
+paid listings, deployment actions, or wallet connections in this milestone.
+
+The version 1 format stores `format`, `version`, `id`, `name`, `description`,
+`useCase`, `createdAt`, optional `forkedFrom`, and a `simulation` request with
+every curve and its demand source. It is a Curve Lab simulation input, not a
+Meteora SDK deployment configuration. Imports are limited to 64 KB and checked
+for format version, numeric bounds, unique curve IDs and color slots, matching
+token supplies, and valid demand fields. Unsupported versions, malformed
+files, and duplicate IDs produce an error without overwriting the library.
+
+Synthetic presets work without launch data. Mainnet presets reference their
+original pool address and need that verified history on the destination
+installation. Missing histories block loading without substituting demand;
+the saved preset can still be exported. Unreadable browser storage is left
+untouched. Keep exported files as backups before clearing browser data.
+
+For a short demo, load **The graduation tradeoff**, inspect migration timing
+and unfilled demand, fork it, change one graduation target, and save. Export
+the fork and import it in a fresh browser to reproduce the comparison.
 
 The corpus currently contains three exactly replayed histories (493 swaps).
 One is available in the UI. Two single-swap fixtures exceed the designer's

@@ -10,6 +10,8 @@ import { Panel, Segmented, Slider } from './Control'
 import LineChart, { type ChartSeries } from './LineChart'
 import CaptureBar from './CaptureBar'
 import ComparisonTable from './ComparisonTable'
+import PresetCatalog from './PresetCatalog'
+import type { Preset } from '@/lib/presets/catalog'
 
 interface CurveState {
   id: string
@@ -104,6 +106,7 @@ export default function CurveLab({ pools }: { pools: PoolSummary[] }) {
   const [result, setResult] = useState<SimulateResponse | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [pending, setPending] = useState(false)
+  const [completedRequest, setCompletedRequest] = useState('')
 
   /** Re-seed when the demand source changes: curve units follow the token. */
   const reseed = useCallback((next: PoolSummary | null) => {
@@ -159,6 +162,7 @@ export default function CurveLab({ pools }: { pools: PoolSummary[] }) {
           setError(body.error ?? `request failed (${res.status})`)
         } else {
           setResult(body as SimulateResponse)
+          setCompletedRequest(JSON.stringify(request))
           setError(null)
         }
       } catch (e) {
@@ -176,6 +180,23 @@ export default function CurveLab({ pools }: { pools: PoolSummary[] }) {
       controller.abort()
     }
   }, [request])
+
+  const loadPreset = (preset: Preset) => {
+    const { curves: savedCurves, demand } = preset.simulation
+    setCurves(savedCurves.map((c) => ({ ...c, curve: { ...c.curve } })))
+    setSupply(savedCurves[0].curve.totalTokenSupply)
+    setUseRealDemand(demand.kind === 'pool')
+    if (demand.kind === 'pool') {
+      setPoolAddress(demand.pool)
+    } else {
+      setShape(demand.shape)
+      setBuys(demand.buys)
+      setTotalQuote(demand.totalQuote)
+    }
+    setResult(null)
+    setError(null)
+    setCompletedRequest('')
+  }
 
   const update = (id: string, patch: Partial<CurveInput>) =>
     setCurves((cs) => cs.map((c) => (c.id === id ? { ...c, curve: { ...c.curve, ...patch } } : c)))
@@ -290,7 +311,7 @@ export default function CurveLab({ pools }: { pools: PoolSummary[] }) {
   const demandTotal = result?.demand.totalQuote ?? 0
 
   return (
-    <div className="mx-auto w-full max-w-[1400px] px-4 pb-16 sm:px-6">
+    <div className="mx-auto w-full max-w-[1400px] px-4 pb-16 [overflow-wrap:anywhere] sm:px-6">
       <header className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-b border-[var(--hairline)] py-5">
         <div>
           <h1 className="text-[17px] font-semibold tracking-tight text-ink">Curve Lab</h1>
@@ -315,7 +336,14 @@ export default function CurveLab({ pools }: { pools: PoolSummary[] }) {
         </div>
       </header>
 
-      <div className="grid gap-5 pt-5 lg:grid-cols-[300px_minmax(0,1fr)]">
+      <PresetCatalog
+        request={request}
+        poolAddresses={pools.map((p) => p.pool)}
+        canSave={completedRequest === JSON.stringify(request) && !!result?.curves.length && result.curves.every((c) => !c.error)}
+        onLoad={loadPreset}
+      />
+
+      <div className="grid gap-5 pt-5 min-[900px]:grid-cols-[280px_minmax(0,1fr)]">
         <div className="flex flex-col gap-3">
           <Panel title="Demand">
             <Segmented
@@ -387,15 +415,15 @@ export default function CurveLab({ pools }: { pools: PoolSummary[] }) {
                   onChange={setShape}
                 />
                 <Slider
-                  label="Buy orders" value={buys} min={5} max={2000} log
+                  label="Buy orders" value={buys} min={Math.min(5, buys)} max={Math.max(2000, buys)} log
                   onChange={(v) => setBuys(Math.round(v))} format={(v) => String(Math.round(v))}
                 />
                 <Slider
-                  label="Total demand" value={totalQuote} min={1} max={10000} log
+                  label="Total demand" value={totalQuote} min={Math.min(1, totalQuote)} max={Math.max(10000, totalQuote)} log
                   onChange={setTotalQuote} format={(v) => sol(v)}
                 />
                 <Slider
-                  label="Token supply" value={supply} min={1e6} max={1e12} log
+                  label="Token supply" value={supply} min={Math.min(1e6, supply)} max={Math.max(1e12, supply)} log
                   onChange={setSupply} format={(v) => sig(v)}
                 />
               </>
@@ -447,7 +475,7 @@ export default function CurveLab({ pools }: { pools: PoolSummary[] }) {
               <Slider
                 label="Base fee"
                 value={c.curve.baseFeeBps}
-                min={25} max={2000} step={5}
+                min={25} max={Math.max(2000, c.curve.baseFeeBps)} step={5}
                 accent={seriesColor(c.slot)}
                 onChange={(v) => update(c.id, { baseFeeBps: Math.round(v) })}
                 format={(v) => `${(v / 100).toFixed(2)}%`}
