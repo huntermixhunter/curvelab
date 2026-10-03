@@ -105,18 +105,24 @@ is recorded. It remains editable until the deadline, October 12, 2026 at
 11:59 PM Pacific.
 
 - Listing: https://earn.superteam.fun/listing/meteora-dbc/
-- Submitted under a new Superteam Earn talent profile: @huntermixhunter,
-  signed in with Google as hunterthomasmix@gmail.com. Skills: Blockchain,
-  Frontend, Typescript. Social: github.com/huntermixhunter.
+- Submitted under a new Superteam Earn talent profile: @huntermixhunter.
+  Skills: Blockchain, Frontend, Typescript. Social: github.com/huntermixhunter.
+  Account credentials and contact details are kept out of this repository.
 - Submitted values: link and website https://curvelab-lake.vercel.app ;
   GitHub https://github.com/huntermixhunter/curvelab ; deck
   https://curvelab-lake.vercel.app/demo/pitch.pdf ; Colosseum question
   answered **No**; tweet, Project X, and both Colosseum links left blank.
 - Colosseum is deliberately out of scope. Meteora bounty only, so its separate
   presentation and demo videos are not required.
-- Open item: prize payout would land on the Privy wallet tied to that Earn
-  account, which currently holds $0 and has not been linked to a wallet the
-  Captain controls. Worth confirming before any award.
+- Payout path verified October 2, 2026. The Earn account carries a Privy
+  embedded Solana wallet, and the wallet panel states that winnings are paid
+  into it. Balance is zero and the address is not yet instantiated on chain,
+  which is normal for an unfunded Solana account. A Withdraw control exists
+  for moving a balance out. No wallet field is required on the submission
+  itself, so nothing about the entry is blocked.
+- Remaining wallet work is operational, not submission work: wallet two factor
+  authentication is still off, and no external destination has been chosen for
+  a payout. Details are in the untracked `_private/PAYOUT.md`.
 
 ## Pre-submission corrections
 
